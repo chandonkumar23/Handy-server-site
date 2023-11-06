@@ -53,7 +53,17 @@ async function run() {
       const result = await bookingCollection.insertOne(bookings);
       res.send(result);
     });
-
+  
+    // Bokking data find for user based
+    app.get('/bookings', async (req,res) =>{
+      console.log(req.query.userEmail);
+      let query = {}
+      if (req.query?.userEmail){
+        query = {userEmail: req.query.userEmail}
+      }
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result)
+    })
 
 
 
