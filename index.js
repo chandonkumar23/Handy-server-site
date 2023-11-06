@@ -46,6 +46,12 @@ async function run() {
     })
 
     // Bookings API
+    app.post('/bookings', async (req,res)=>{
+      const bookings = req.body;
+      console.log(bookings);
+    });
+
+
 
 
 
