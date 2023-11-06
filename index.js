@@ -45,10 +45,13 @@ async function run() {
       res.send(result);
     })
 
+
     // Bookings API
     app.post('/bookings', async (req,res)=>{
       const bookings = req.body;
       console.log(bookings);
+      const result = await bookingCollection.insertOne(bookings);
+      res.send(result);
     });
 
 
