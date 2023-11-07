@@ -31,6 +31,8 @@ async function run() {
 
     const servicesCollection = client.db('homeServices').collection('HomeServices');
     const bookingCollection = client.db('homeServices').collection('Bookings')
+    const addCollection = client.db('homeServices').collection('AddService')
+
     app.get('/services', async(req,res)=>{
         const cursor = servicesCollection.find();
         const result = await cursor.toArray();
@@ -45,8 +47,25 @@ async function run() {
       res.send(result);
     })
 
+    // Add new service
+    app.post('/AddServices',async(req,res)=>{
+      const add = req.body;
+      const result = await addCollection.insertOne(add)
+      res.send(result);
+    })
+    app.get('/AddServices',async(req,res)=>{
+      console.log(req.query.userEmail);
+      let query= {}
+      if(req.query?.userEmail){
+        query = {userEmail: req.query.userEmail}
+      }
+      const result = await addCollection.find(query).toArray();
+      res.send(result)
+    })
 
-    // Bookings API
+
+
+    // Bookings 
     app.post('/bookings', async (req,res)=>{
       const bookings = req.body;
       console.log(bookings);
@@ -54,7 +73,7 @@ async function run() {
       res.send(result);
     });
   
-    // Bokking data find for user based
+    // Bokking data find  user based
     app.get('/bookings', async (req,res) =>{
       console.log(req.query.userEmail);
       let query = {}
