@@ -63,6 +63,37 @@ async function run() {
       res.send(result)
     })
 
+    // update
+    app.put('/AddServices/:id',async(req ,res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert: true};
+      const updatedSerices = req.body;
+      const serices = {
+        $set: {
+          name: updatedSerices.name,
+          userEmail: updatedSerices.userEmail,
+          userName: updatedSerices.userName,
+          price: updatedSerices.price,
+          image: updatedSerices.image,
+          area: updatedSerices.area,
+          description: updatedSerices.description
+        }
+      }
+      const result = await addCollection.updateOne(filter,serices,options)
+      res.send(result);
+    })
+
+    // delete
+
+    app.delete('/AddServices/:id',async (req,res)=>{
+      const id =req.params.id;
+      const query ={_id: new ObjectId(id)}
+      const result = await addCollection.deleteOne(query);
+      res.send(result);
+    })
+
+
 
 
     // Bookings 
