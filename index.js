@@ -29,21 +29,21 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const servicesCollection = client.db('homeServices').collection('HomeServices');
+    // const servicesCollection = client.db('homeServices').collection('HomeServices');
     const bookingCollection = client.db('homeServices').collection('Bookings')
     const addCollection = client.db('homeServices').collection('AddService')
 
-    app.get('/services', async(req,res)=>{
-        const cursor = servicesCollection.find();
+    app.get('/AddServices', async(req,res)=>{
+        const cursor = addCollection.find();
         const result = await cursor.toArray();
         res.send(result);
     })
 
     // single ddala
-    app.get('/services/:id',async(req,res)=>{
+    app.get('/AddServices/:id',async(req,res)=>{
       const id =req.params.id;
       const query = {_id: new ObjectId(id)}
-      const result = await servicesCollection.findOne(query);
+      const result = await addCollection.findOne(query);
       res.send(result);
     })
 
@@ -54,10 +54,10 @@ async function run() {
       res.send(result);
     })
     app.get('/AddServices',async(req,res)=>{
-      console.log(req.query.userEmail);
+      console.log(req.query.usermail);
       let query= {}
-      if(req.query?.userEmail){
-        query = {userEmail: req.query.userEmail}
+      if(req.query?.usermail){
+        query = {usermail: req.query.usermail}
       }
       const result = await addCollection.find(query).toArray();
       res.send(result)
@@ -108,8 +108,8 @@ async function run() {
     app.get('/bookings', async (req,res) =>{
       console.log(req.query.userEmail);
       let query = {}
-      if (req.query?.userEmail){
-        query = {userEmail: req.query.userEmail}
+      if (req.query?.usermail){
+        query = {usermail: req.query.usermail}
       }
       const result = await bookingCollection.find(query).toArray();
       res.send(result)
