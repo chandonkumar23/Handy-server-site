@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware 
- app.use(cors({origin:["https://assignment-7bce6.web.app"]}));
+ app.use(cors({origin:["https://assignment-7bce6.web.app","http://localhost:5173"]}));
  app.use(express.json());
 
 console.log(process.env.DB_PASS)
@@ -53,15 +53,61 @@ async function run() {
       const result = await addCollection.insertOne(add)
       res.send(result);
     })
-    app.get('/AddServices',async(req,res)=>{
-      console.log(req.query.userEmail);
-      let query = {}
-      if (req.query?.usermail){
-        query = {usermail: req.query.usermail}
+
+
+    // app.get('/AddServices',async(req,res)=>{
+    //   console.log(req.query.userEmail);
+    //   let query = {}
+    //   if (req.query?.usermail){
+    //     query = {usermail: req.query.usermail}
+    //   }
+    //   const result = await addCollection.find(query).toArray();
+    //   res.send(result)
+    // })
+
+
+
+    // manage services
+
+    // app.get('/AddServices', async (req,res) =>{
+    //   const {email}=req.query
+    //   let query = {}
+    //   if (req.query?.usermail){
+    //     query = {email: req.query.usermail}
+    //   }
+
+    //   const result = await addCollection.find(query).toArray();
+    //   res.send(result)
+    // })
+
+    app.get("/AddServices", async (req, res) => {
+      const {usermail} = req.query;
+      // console.log("token:", req.cookies.token);
+      console.log(usermail)
+      // if (req.query.usermail !== req.user.usermail) {
+      //   return res.status(403).send({ message: "forbidden access" });
+      // }
+      let query = {};
+      if (req.query?.usermail) {
+        query = { usermail: req.query.usermail };
       }
-      const result = await addCollection.find(query).toArray();
-      res.send(result)
+      console.log(query);
+      const cursor = addCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
     })
+
+
+
+
+
+
+
+
+
+
+
+
 
     // update
     app.put('/AddServices/:id',async(req ,res)=>{
