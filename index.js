@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware 
- app.use(cors({origin:["https://assignment-7bce6.web.app","http://localhost:5173"]}));
+ app.use(cors({origin:["https://colly-df2ef.web.app","http://localhost:5173"]}));
  app.use(express.json());
 
 console.log(process.env.DB_PASS)
